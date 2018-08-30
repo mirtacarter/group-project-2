@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
         link: {
             type: DataTypes.STRING
         }
-    })
+    });
 
     //Associate the job post with the user that saved it
     Jobs.associate = function(models) {
