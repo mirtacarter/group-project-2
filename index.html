@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Page Title-->
+    <title>Job Finder</title>
+
+    <!--CSS-->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans|Ubuntu|Ubuntu+Condensed" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
+
+</head>
+
+<body style="background-color: #F1F6FA">
+    <!--Jumbotron-->
+    <div class="section">
+        <div class="row">
+            <h1 class="center">OddJobs</h1>
+            <a class="waves-effect waves-light btn modal-trigger" href="#login">Login</a>
+            
+        </div>
+
+    </div>
+
+    <!--Start of the main container-->
+
+    <div class="container">
+
+
+
+        <!-- display Success message -->
+       <!-- JOB SAVED ALERT GOES HERE-->
+        <!-- Login modal-->
+        <div id="login" class="modal">
+                <div class="modal-content">
+                        <div class="input-field">
+                                <input type="email" id="userEmail">
+                                    <label for="userEmail">Email Address</label>
+                                    </div>
+                            <div class="input-field">
+                                <input type="password" id="userPassword">
+                                    <label for="userPassword">Password</label>
+                                    </div>
+                            <a class="waves-effect waves-red btn" onclick="login()" id="loginButton">Login</a>
+                
+                  <a href="#!" class="modal-close waves-effect waves-light btn">Close</a>
+                </div>
+              </div>
+
+        <!--Div for job searching-->
+        <div class="container my-1">
+            <form name="myForm">
+                <div class="form-row">
+                    <div class="form-group; col l5">
+                        <!-- Where?? -->
+                        <input type="text" name="where" class="form-control" placeholder="Where are you looking? (city, state, or zip)" style="font-family: 'Ubuntu', sans-serif;
+                        " id="location-input">
+                    </div>
+                    <div class="form-group; col l5">
+                        <!-- Type of Job -->
+                        <input type="text" name="type" class="form-control" placeholder="What kind of job are you looking for?" style="font-family: 'Ubuntu', sans-serif;
+                        " id="keyword-input">
+                    </div>
+                    <div class="col l2" style="text-align: center; font-family: 'Ubuntu', sans-serif;">
+                        <!--Find Jobs Button-->
+                        <button type="submit" class="btn btn-primary" id="submit-search">Find Jobs!</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col l5">
+                        <div class="alert alert-primary" id="where" role="alert">
+                            Required!
+                        </div>
+                    </div>
+                    <div class="col l5">
+                        <div class="alert alert-primary" id="type" role="alert">
+                            Required!
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--Div for the results-->
+            <div class="content-wrapper" style="display:none">
+                <div class="card">
+                    <div class="row">
+                        <div class="col xl6 l12 s12">
+                            <!--Empty div for the google map-->
+                            <div id="map" style="height:520px">
+
+                            </div>
+                        </div>
+                        <div class="col xl6 l12 s12">
+                            <!-- Table for the results from career one stop-->
+                            <div class="responsive-table">
+                                <table id="resultsTable" style="font-size:14px; font-family: 'Ubuntu', sans-serif;
+                                ">
+                                    <thead>
+                                        <tr>
+                                            <th>Job Title</th>
+                                            <th>Company</th>
+                                            <th>Location</th>
+                                            <th>Posted</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="height:520px">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="SavedJobsList" style="height:700px" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <!-- display Success message -->
+                    <div class="alert alert-primary" id="delete-success" role="alert">
+                        Job Deleted Successfully!
+                    </div>
+                    <!-- modal Header-->
+                    <div class="modal-header" style="font-family: 'Ubuntu', sans-serif; background-color: #007BFF;
+                    color: white">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Saved Jobs</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!--Modal Body-->
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="savedJobs" style="font-size:10px; font-family: 'Ubuntu', sans-serif;">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Location</th>
+                                        <th>Posted</th>
+                                        <th></th>
+                                        <th></th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Modal Footer-->
+                        <div class="modal-footer">
+                            <!--Close Button-->
+                            <button type="button" class="btn btn-primary" style="font-family: 'Ubuntu', sans-serif;
+                            " data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</div>
+
+<!--JavaScript-->
+<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAERjOZ74OofOKreqqakgNH-RmVu3Yp8k&libraries=places"></script>
+
+<script src="muse.js"></script>
+<script src="script.js"></script>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+</body>
+
+</html>
