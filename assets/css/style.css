@@ -1,0 +1,55 @@
+.main-div {
+    float: right;
+}
+
+.section {
+    background-image: url("../images/bg-037.jpg");
+    background-position: left bottom;
+   
+   
+  }
+
+.loggedin-div {
+    clear: both;
+    float: right;
+}
+h1 {
+    margin-top: 40px;
+    color: white;
+    font-size: 50px;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+input {
+    width: 150px;
+    height: 20px;
+}
+.card {
+    margin-top: 20px;
+}
+
+
+  #user_para {
+      color: aliceblue;
+  }
+
+  .btn:hover {
+      background-color: gray
+  }
+
+ tbody {
+     table-layout: fixed;
+ }
+
+ #loginButton {
+     background-color: #c1d5e0;
+     color: #62757f;
+ }
+
+.modal-close {
+    background-color: #d50000;
+}
+
+.modal-trigger {
+    background-color: #c1d5e0;
+    color: #62757f;
+}
