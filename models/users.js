@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
 
     //Associate the user's id with the jobs they save
     Users.associate = function(models) {
-        Author.hasMany(models.Post, {
+        Users.hasMany(models.Jobs, {
             onDelete: "cascade"
           });
     };
