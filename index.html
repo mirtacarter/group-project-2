@@ -40,7 +40,7 @@
     <div id="picture">
     <span class="info">
         <p id="name"></p>
-        <p><a class="waves-effect waves-red blue-grey btn" href="javascript:void(0);" onclick="logout()">Logout</a></p>
+        <p><a class="waves-effect waves-red blue-greybtn" href="javascript:void(0);" onclick="logout()">Logout</a></p>
     </div></div>
 </div>
 
@@ -193,7 +193,7 @@
     
     // Use the API call wrapper to request the member's profile data
     function getProfileData() {
-        IN.API.Profile("me").fields("id", "first-name", "last-name", "picture-url", "email-address").result(displayProfileData).error(onError);
+        IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "location", "picture-url", "public-profile-url", "email-address").result(displayProfileData).error(onError);
     }
 
     // Handle the successful return from the API call
