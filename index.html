@@ -197,9 +197,10 @@
         IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "location", "picture-url", "public-profile-url", "email-address").result(displayProfileData).error(onError);
     }
 
-    var userId = user.id;
-    console.log("user id: " + userId);
+    // var UserId = user.id;
+    // console.log("user id: " + userId);
     
+
     // Handle the successful return from the API call
     function displayProfileData(data){
         var user = data.values[0];
