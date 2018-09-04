@@ -123,7 +123,7 @@ $("#submit-search").on("click", function (event) {
       companies.push(placeName);
 
       // Logic to determine if user is logged in
-      if (email_id) {
+      // if (email_id) {
         // Load search results to html with the save button if user is logged in
         var newRow = $("#resultsTable")
           .append($('<tr>')
@@ -134,17 +134,17 @@ $("#submit-search").on("click", function (event) {
             .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
             .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' data-jobid='" + jobid + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
           );
-      } else {
-        // Load search results to html without the save button if user not logged in
-        var newRow = $("#resultsTable")
-          .append($('<tr>')
-            .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
-            .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
-            .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
-            .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
-            .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
-          );
-      }
+      // } else {
+      //   // Load search results to html without the save button if user not logged in
+      //   var newRow = $("#resultsTable")
+      //     .append($('<tr>')
+      //       .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
+      //       .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
+      //       .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
+      //       .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
+      //       .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
+      //     );
+      // }
     }
 
     // Display content area 
