@@ -36,12 +36,13 @@
             <script type="in/Login"></script>
             <!-- display profile info -->
 <div id="profileData" class="right card" style="display: none;">
-    
-    <div id="picture">
-    <span class="info">
+    <p><a href="javascript:void(0);" onclick="logout()">Logout</a></p>
+    <div id="picture"></div>
+    <div class="info">
         <p id="name"></p>
-        <p><a class="waves-effect waves-red blue-grey btn" href="javascript:void(0);" onclick="logout()">Logout</a></p>
-    </div></div>
+        <p id="email"></p>
+      
+    </div>
 </div>
 
         </div>
@@ -75,7 +76,7 @@
                     </div>
                     <div class="col l2" style="text-align: center; font-family: 'Ubuntu', sans-serif;">
                         <!--Find Jobs Button-->
-                        <button type="submit" class="btn btn-primary blue-grey" id="submit-search">Find Jobs!</button>
+                        <button type="submit" class="btn btn-primary" id="submit-search">Find Jobs!</button>
                     </div>
                 </div>
 
@@ -193,12 +194,15 @@
     
     // Use the API call wrapper to request the member's profile data
     function getProfileData() {
-        IN.API.Profile("me").fields("id", "first-name", "last-name", "picture-url", "email-address").result(displayProfileData).error(onError);
+        IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "location", "picture-url", "public-profile-url", "email-address").result(displayProfileData).error(onError);
     }
+    var userId = user.id;
+    console.log("user id: " + userId);
+    
     // Handle the successful return from the API call
     function displayProfileData(data){
         var user = data.values[0];
-        document.getElementById("picture").innerHTML = '<img class="responsive-img circle" src=' + user.pictureUrl + ' />';
+        document.getElementById("picture").innerHTML = '<img class="responsive-img" src=' + user.pictureURL + ' />';
         document.getElementById("name").innerHTML ='Signed in as ' + user.firstName+' '+user.lastName;
         document.getElementById("email").innerHTML = user.emailAddress;
         document.getElementById('profileData').style.display = 'block';
@@ -225,14 +229,13 @@
 
 
 <!--JavaScript-->
-<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAERjOZ74OofOKreqqakgNH-RmVu3Yp8k&libraries=places"></script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAERjOZ74OofOKreqqakgNH-RmVu3Yp8k&libraries=places"></script> -->
 
 <script src="muse.js"></script>
 <script src="script.js"></script>
