@@ -123,7 +123,7 @@ $("#submit-search").on("click", function (event) {
       companies.push(placeName);
 
       // Logic to determine if user is logged in
-      if (userId) {
+      if (email_id) {
         // Load search results to html with the save button if user is logged in
         var newRow = $("#resultsTable")
           .append($('<tr>')
