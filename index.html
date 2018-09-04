@@ -36,13 +36,12 @@
             <script type="in/Login"></script>
             <!-- display profile info -->
 <div id="profileData" class="right card" style="display: none;">
-    <p><a href="javascript:void(0);" onclick="logout()">Logout</a></p>
-    <div id="picture"></div>
-    <div class="info">
+    
+    <div id="picture">
+    <span class="info">
         <p id="name"></p>
-        <p id="email"></p>
-      
-    </div>
+        <p><a class="waves-effect waves-red blue-grey btn" href="javascript:void(0);" onclick="logout()">Logout</a></p>
+    </div></div>
 </div>
 
         </div>
@@ -76,7 +75,7 @@
                     </div>
                     <div class="col l2" style="text-align: center; font-family: 'Ubuntu', sans-serif;">
                         <!--Find Jobs Button-->
-                        <button type="submit" class="btn btn-primary" id="submit-search">Find Jobs!</button>
+                        <button type="submit" class="btn btn-primary blue-grey" id="submit-search">Find Jobs!</button>
                     </div>
                 </div>
 
@@ -194,7 +193,7 @@
     
     // Use the API call wrapper to request the member's profile data
     function getProfileData() {
-        IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "location", "picture-url", "public-profile-url", "email-address").result(displayProfileData).error(onError);
+        IN.API.Profile("me").fields("id", "first-name", "last-name", "picture-url", "email-address").result(displayProfileData).error(onError);
     }
 
     var userId = user.id;
@@ -203,7 +202,7 @@
     // Handle the successful return from the API call
     function displayProfileData(data){
         var user = data.values[0];
-        document.getElementById("picture").innerHTML = '<img class="responsive-img" src=' + user.pictureUrl + ' />';
+        document.getElementById("picture").innerHTML = '<img class="responsive-img circle" src=' + user.pictureUrl + ' />';
         document.getElementById("name").innerHTML ='Signed in as ' + user.firstName+' '+user.lastName;
         document.getElementById("email").innerHTML = user.emailAddress;
         document.getElementById('profileData').style.display = 'block';
