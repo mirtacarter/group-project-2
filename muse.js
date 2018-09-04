@@ -123,7 +123,7 @@ $("#submit-search").on("click", function (event) {
       companies.push(placeName);
 
       // Logic to determine if user is logged in
-      // if (userId) {
+      if (userId) {
         // Load search results to html with the save button if user is logged in
         var newRow = $("#resultsTable")
           .append($('<tr>')
@@ -134,17 +134,17 @@ $("#submit-search").on("click", function (event) {
             .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
             .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' data-jobid='" + jobid + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
           );
-      // } else {
-      //   // Load search results to html without the save button if user not logged in
-      //   var newRow = $("#resultsTable")
-      //     .append($('<tr>')
-      //       .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
-      //       .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
-      //       .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
-      //       .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
-      //       .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
-      //     );
-      // }
+      } else {
+        // Load search results to html without the save button if user not logged in
+        var newRow = $("#resultsTable")
+          .append($('<tr>')
+            .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
+            .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
+            .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
+            .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
+            .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
+          );
+      }
     }
 
     // Display content area 
@@ -160,69 +160,3 @@ $("#submit-search").on("click", function (event) {
 });
 
 //---------------------------------------------------------------------------------------------------------------------
-
-// Initialize map function
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10.5
-  });
-
-  // Use Google's geocoder to center map to the area searched
-  var geocoder = new google.maps.Geocoder;
-  geocoder.geocode({ 'address': searchArea[0] }, function (results, status) {
-    if (status === 'OK') {
-      map.setCenter(results[0].geometry.location);
-    } else {
-      window.alert('Geocode was not successful for the following reason: ' +
-        status);
-    };
-  });
-
-  // Query the Places library for the company name within the search area
-  for (var i = 0; i < companies.length; i++) {
-    var request = {
-      query: companies[i] + " in " + searchArea[i],
-      fields: ['formatted_address', 'name'],
-    }
-    console.log(request);
-    service = new google.maps.places.PlacesService(map);
-    infowindow = new google.maps.InfoWindow();
-    service.textSearch(request, callback);
-  }
-}
-
-// Return the query results
-function callback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      console.log(place);
-      createMarker(place);
-    }
-  }
-}
-
-// Create map markers for each result returned
-function createMarker(place) {
-  var marker = new google.maps.Marker({
-    position: place.geometry.location,
-    animation: google.maps.Animation.DROP,
-    map: map
-  });
-
-  // Generate an info window when an individual marker is clicked
-  google.maps.event.addListener(marker, 'click', function () {
-    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-      '<br>' +
-      place.formatted_address + '</div>');
-    infowindow.open(map, this);
-  });
-}
-
-function toggleBounce() {
-  if (marker.getAnimation() !== null) {
-    marker.setAnimation(null);
-  } else {
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-  }
-}
