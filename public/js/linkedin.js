@@ -13,8 +13,8 @@ console.log("user id: " + userId);
 // Handle the successful return from the API call
 function displayProfileData(data){
     var user = data.values[0];
-    document.getElementById("picture").innerHTML = '<img class="responsive-img" src=' + user.pictureUrl + ' />';
-    document.getElementById("name").innerHTML ='Signed in as ' + user.firstName+' '+user.lastName;
+    document.getElementById("picture").innerHTML = '<img class="responsive-img circle" src=' + user.pictureUrl + ' />';
+    document.getElementById("#name").innerHTML ='Signed in as ' + user.firstName+' '+user.lastName +'<a class="waves-effect waves-red blue-grey btn-small" href="javascript:void(0);" onclick="logout()">Logout</a>';
     document.getElementById("email").innerHTML = user.emailAddress;
     document.getElementById('profileData').style.display = 'block';
 }

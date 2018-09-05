@@ -24,7 +24,11 @@ input {
     height: 20px;
 }
 .card {
-    margin-top: 20px;
+    margin: -163px 1263px 0px 0px;
+    padding: 5px 28px 5px 28px;
+    background-color: #1661a000;
+    color: white;
+    font-weight: bold;
 }
 
 
@@ -52,4 +56,11 @@ input {
 .modal-trigger {
     background-color: #c1d5e0;
     color: #62757f;
+}
+
+#profileData {
+    background-color: #90a4ae;
+    position: fixed;
+    right: 0;
+    top: 0;
 }
