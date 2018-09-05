@@ -12,6 +12,9 @@ module.exports = function(sequelize, DataTypes) {
         },
         link: {
             type: DataTypes.STRING
+        },
+        jobPostDate: {
+            type: DataTypes.STRING
         }
     });
 
