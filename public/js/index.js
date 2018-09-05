@@ -1,99 +1,141 @@
-// Get references to page elements
-var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
-var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+//function to make both search fields required
+function validate() {
 
-// The API object contains methods for each kind of request we'll make
-var API = {
-  saveExample: function(example) {
-    return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
-      type: "POST",
-      url: "api/examples",
-      data: JSON.stringify(example)
-    });
-  },
-  getExamples: function() {
-    return $.ajax({
-      url: "api/examples",
-      type: "GET"
-    });
-  },
-  deleteExample: function(id) {
-    return $.ajax({
-      url: "api/examples/" + id,
-      type: "DELETE"
-    });
+  //Checking to make sure that the where field is filled out
+  if (document.myForm.where.value == "") {
+    //if not filled out launch whereMessage function
+    whereMessage();
+    document.myForm.where.focus();
+    return false;
   }
-};
+  //Checking to make sure the type of job field is filled out
+  if (document.myForm.type.value == "") {
+    //if not filled out launch typeMessage function
+    typeMessage();
+    document.myForm.type.focus();
+    return false;
+  }
+  return (true);
+}
 
-// refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
-      var $a = $("<a>")
-        .text(example.text)
-        .attr("href", "/example/" + example.id);
+//Hides the 2 alerts for the input fields right away
+$('#where').hide();
+$('#type').hide();
+//function to show the required message for the where input
+function whereMessage() {
+  $('#where').slideDown(1000);
+  $('#where').delay(1000);
+  $('#where').slideUp(1000);
+}
+//function to show the required message for the type input
+function typeMessage() {
+  $('#type').slideDown(1000);
+  $('#type').delay(1000);
+  $('#type').slideUp(1000);
+}
 
-      var $li = $("<li>")
-        .attr({
-          class: "list-group-item",
-          "data-id": example.id
-        })
-        .append($a);
+//------Job search and results info is here-----------------------------------------------------------------
 
-      var $button = $("<button>")
-        .addClass("btn btn-danger float-right delete")
-        .text("ｘ");
+// Global variables
+// Empty arrays to collect location of search and company names from results
+var searchArea = [];
+var companies = [];
 
-      $li.append($button);
+// Map boolean for reset function, set to false
+var isMapLoaded = false;
 
-      return $li;
-    });
+// Reset function
+function resetMap() {
+  // Clear out array data
+  searchArea = [];
+  companies = [];
+  // Clear out content divs
+  $("#map").empty();
+  $("#resultsTable").empty();
+}
 
-    $exampleList.empty();
-    $exampleList.append($examples);
-  });
-};
+//---------------------------------------------------------------------------------------------------------------------
 
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-var handleFormSubmit = function(event) {
+// Main app logic
+$("#submit-search").on("click", function (event) {
   event.preventDefault();
 
-  var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
-  };
+  // Check if map needs to be reset
+  resetMap();
+  validate();
 
-  if (!(example.text && example.description)) {
-    alert("You must enter an example text and description!");
-    return;
+  // Capture values entered
+  var locationInput = $("#location-input").val().trim();
+  var keywordInput = $("#keyword-input").val().trim();
+
+  // Empty input fields
+  $("#location-input").val("");
+  $("#keyword-input").val("");
+
+  // Set up URL for API request, include authorization token 
+  var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://api.careeronestop.org/v1/jobsearch/lrBD3vbyFOxQtUb/" + keywordInput + "/" + locationInput + "/25/0/0/0/10/60",
+    "method": "GET",
+    "headers": {
+      "Authorization": "Bearer qA9NVS//BpInzmVsOODQ+tXhlgqTsKNa+ZFaOLvijHR04Jrr/3Jzdi2eJoOVrHE1/8L2MEnzLxeaJ4zV9uTkLA==",
+      "Cache-Control": "no-cache",
+      "Postman-Token": "0cab4fd0-14c7-44d0-8e24-ce787a7a188b"
+    }
   }
 
-  API.saveExample(example).then(function() {
-    refreshExamples();
+  // Ajax request
+  $.ajax(settings).done(function (response) {
+
+    // Loop over response
+    var resultsNum = response.Jobs.length;
+    for (var i = 0; i < resultsNum; i++) {
+      var jobListing = response.Jobs[i];
+
+      // Convert job posting date/time result from returned format into days or months
+      var dateConvert = jobListing.AccquisitionDate.split(" ");
+      var calendarDate = dateConvert[0];
+      var daysAgo = moment(calendarDate).fromNow();
+
+      // Relevant job posting results stored as variables
+      var title = jobListing.JobTitle;
+      var company = jobListing.Company;
+      var location = jobListing.Location;
+      var postdate = jobListing.AccquisitionDate;
+      var jobid = jobListing.JvId;
+      var url = jobListing.URL;
+
+      // Variable for location of jobListing to set map location context
+      address = jobListing.Location;
+      // Push to array         
+      searchArea.push(address);
+
+      // Variable for company names
+      placeName = jobListing.Company;
+      // Push to array
+      companies.push(placeName);
+
+      // Load search results to html with the save button if user is logged in
+      var newRow = $("#resultsTable")
+        .append($('<tr>')
+          .append($('<td>').append(jobListing.JobTitle).attr("data-jobtitle", jobListing.JobTitle))
+          .append($('<td>').append(jobListing.Company).attr("data-jobcompany", jobListing.Company))
+          .append($('<td>').append(jobListing.Location).attr("data-joblocation", jobListing.Location))
+          .append($('<td>').append(daysAgo).attr("data-dateposted", jobListing.AccquisitionDate))
+          .append($('<td>').html("<a href='" + jobListing.URL + "' target='_blank'> Apply</a>").attr("data-url", jobListing.URL))
+          .append($("<td>").html("<button data-title='" + title + "' data-company='" + company + "' data-location='" + location + "' data-postdate='" + postdate + "' data-url= '" + url + "' data-search= '" + keywordInput + "' data-jobid='" + jobid + "' type='button' class='btn-sm btn-primary' id='save-jobs'>Save</button>"))
+        );
+    }
+
+    // Display content area 
+    $(".content-wrapper").show();
   });
+});
 
-  $exampleText.val("");
-  $exampleDescription.val("");
-};
-
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
-var handleDeleteBtnClick = function() {
-  var idToDelete = $(this)
-    .parent()
-    .attr("data-id");
-
-  API.deleteExample(idToDelete).then(function() {
-    refreshExamples();
-  });
-};
-
-// Add event listeners to the submit and delete buttons
-$submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);
+//-------------------------------------------------------------------------------------------------------------
+//------Map information goes here------------------------------------------------------------------------------
+// Map variables
+var map;
+var service;
+var infowindow;
