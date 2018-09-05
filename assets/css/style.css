@@ -53,3 +53,10 @@ input {
     background-color: #c1d5e0;
     color: #62757f;
 }
+
+#profileData {
+    background-color: #90a4ae;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
