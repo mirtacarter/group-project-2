@@ -133,6 +133,33 @@ $("#submit-search").on("click", function (event) {
   });
 });
 
+//Save the job information and send it to the MySQL database
+$(document).on("click", "#save-jobs", function (event) {
+  event.preventDefault();
+
+  // Grabs user input 
+  var company = $(this).attr("data-company").trim();
+  var title = $(this).attr("data-title").trim();
+  var url = $(this).attr("data-url").trim();
+  var postDate = $(this).attr("data-postdate").trim();
+  var location = $(this).attr("data-location").trim();
+  var search = $(this).attr("data-search").trim();
+  var jobid = $(this).attr("data-jobid");
+
+
+  // Creates local "temporary" object for holding jobs data
+  var newJob = {
+      jobUser: email_id,
+      jobCompany: company,
+      jobTitle: title,
+      jobUrl: url,
+      jobPostdate: postDate,
+      jobLocation: location,
+      jobsearch: search
+  };
+
+  //
+});
 //-------------------------------------------------------------------------------------------------------------
 //------Map information goes here------------------------------------------------------------------------------
 // Map variables
