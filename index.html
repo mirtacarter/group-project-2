@@ -43,6 +43,15 @@
             <script type="in/Login"></script>
             <!-- display profile info -->
 
+<div id="profileData" class="right card" style="display: none;">
+    <p><a href="javascript:void(0);" onclick="logout()">Logout</a></p>
+    <div id="picture"></div>
+    <div class="info">
+        <p id="name"></p>
+        <p id="email"></p>
+      
+    </div>
+
 </div>
 
         </div>
@@ -76,7 +85,7 @@
                     </div>
                     <div class="col l2" style="text-align: center; font-family: 'Ubuntu', sans-serif;">
                         <!--Find Jobs Button-->
-                        <button type="submit" class="btn btn-primary blue-grey" id="submit-search">Find Jobs!</button>
+                        <button type="submit" class="btn btn-primary" id="submit-search">Find Jobs!</button>
                     </div>
                 </div>
 
@@ -184,58 +193,17 @@
 </div>
 
 
-
-
-<script type="text/javascript">
-    // Setup an event listener to make an API call once auth is complete
-    function onLinkedInLoad() {
-        IN.Event.on(IN, "auth", getProfileData);
-    }
-    
-    // Use the API call wrapper to request the member's profile data
-    function getProfileData() {
-        IN.API.Profile("me").fields("id", "first-name", "last-name", "picture-url", "email-address").result(displayProfileData).error(onError);
-    }
-    // Handle the successful return from the API call
-    function displayProfileData(data){
-        var user = data.values[0];
-        document.getElementById("picture").innerHTML = '<img class="responsive-img circle" src=' + user.pictureUrl + ' />';
-        document.getElementById("name").innerHTML ='Signed in as ' + user.firstName+' '+user.lastName;
-        document.getElementById("email").innerHTML = user.emailAddress;
-        document.getElementById('profileData').style.display = 'block';
-    }
-    // Handle an error response from the API call
-    function onError(error) {
-        console.log(error);
-    }
-    
-    // Destroy the session of linkedin
-    function logout(){
-        IN.User.logout(removeProfileData);
-    }
-    
-    // Remove profile data from page
-    function removeProfileData(){
-        document.getElementById('profileData').remove();
-    }
-</script>
-
-
-
-
-
-
 <!--JavaScript-->
-<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAERjOZ74OofOKreqqakgNH-RmVu3Yp8k&libraries=places"></script>
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAERjOZ74OofOKreqqakgNH-RmVu3Yp8k&libraries=places"></script> -->
 
-<script src="muse.js"></script>
+<script src="public/js/index.js"></script>
+<script src="public/js/linkedin.js"></script>
 <script src="script.js"></script>
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
