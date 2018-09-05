@@ -24,7 +24,11 @@ input {
     height: 20px;
 }
 .card {
-    margin-top: 20px;
+    margin: -163px 1263px 0px 0px;
+    padding: 5px 28px 5px 28px;
+    background-color: #1661a000;
+    color: white;
+    font-weight: bold;
 }
 
 
